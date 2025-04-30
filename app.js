@@ -8,8 +8,8 @@ let operator = null;
 
 /*------------------------ Cached Element References ------------------------*/
 const calculator = document.querySelector('#calculator');
-const button = document.querySelector('.button')
 const display = document.querySelector('.display')
+display.innerText = 0;
 
 
 /*----------------------------- Event Listeners -----------------------------*/
@@ -17,7 +17,11 @@ calculator.addEventListener('click', (event) => {
     if (event.target.classList.contains('number')) {
         clickNumber(event.target.innerText);
     } else if (event.target.classList.contains('operator')) {
-        clickOperators(event.target.innerText); 
+        if (event.target.innerText === "C") {
+            clearCalculator();
+        } else {
+            clickOperators(event.target.innerText)
+        }
     } else if (event.target.classList.contains('equals')) {
         calculateResult();
     }
@@ -39,12 +43,14 @@ function clickOperators(opt) {
     if (operator === "C") {
         clearCalculator();
         return;
-    }
+    } 
+
     if (currentInput === "") return;
     previousInput = currentInput;
     currentInput = "";
     operator = opt;
     console.log({operator, previousInput, currentInput})
+    
 }
 
 function calculateResult() {
@@ -52,7 +58,16 @@ function calculateResult() {
     if (operator === "+") {
         let sum = parseInt(previousInput) + parseInt(currentInput)
         display.innerText = sum;
-    }
+    } else if (operator === "-") {
+        let sum = parseInt([previousInput]) - parseInt(currentInput)
+        display.innerText = sum;
+    } else if (operator === "*") {
+        let sum = parseInt([previousInput]) * parseInt(currentInput)
+        display.innerText = sum;
+    } else if (operator === "/") {
+        let sum = parseInt([previousInput]) / parseInt(currentInput)
+        display.innerText = sum;
+    } 
 }
 
 function clearCalculator() {
@@ -60,7 +75,7 @@ function clearCalculator() {
     currentInput = "";
     previousInput = "";
     operator = null;
-    display.innerText = currentInput;
+    display.innerText = 0;
 }
 /*-------------------------------- User Stories --------------------------------*/
 /*As a user, I want to be able to select numbers so that I can perform operations with them.
